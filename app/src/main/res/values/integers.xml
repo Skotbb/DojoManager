@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="number_days_min">1</integer>
+    <integer name="number_days_max">7</integer>
+    <integer name="number_hours_min">1</integer>
+    <integer name="number_hours_max">5</integer>
+
+
+</resources>

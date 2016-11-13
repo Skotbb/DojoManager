@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:preference="http://schemas.android.com/apk/res-auto">
+    <com.android.thompson.scott.dojomanager.NumberPickerPreference
+        android:key = "daysPerWeek"
+        android:title = "Days per week"
+        android:defaultValue = "2"
+        preference:maxValue = "@integer/number_days_max"
+        preference:minValue = "@integer/number_days_min"
+        />
+    <com.android.thompson.scott.dojomanager.NumberPickerPreference
+        android:key = "hoursPerClass"
+        android:title = "Hours per class"
+        android:defaultValue = "2"
+        preference:maxValue = "@integer/number_hours_max"
+        preference:minValue = "@integer/number_hours_min"
+        />
+</PreferenceScreen>
