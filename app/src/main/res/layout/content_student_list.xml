@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.android.thompson.scott.dojomanager.StudentListActivity"
+    tools:showIn="@layout/activity_student_list"
+    android:baselineAligned="false">
+
+    <fragment
+        android:id="@+id/student_list_fragment"
+        android:name="com.android.thompson.scott.dojomanager.StudentListFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+</LinearLayout>

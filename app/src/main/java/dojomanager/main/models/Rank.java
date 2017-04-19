@@ -1,9 +1,11 @@
+package dojomanager.main.models;
+
 /**
  * Created by Scott on 10/15/2016.
  */
 
 public class Rank {
-    private enum RankType {Dan, Kyu};
+    public enum RankType {Dan, Kyu};
 
     private int rankLevel;
     private int rankLevMin;
@@ -35,7 +37,7 @@ public class Rank {
         if(rankLevel >= rankLevMin && rankLevel <= rankLevMax){
             this.rankLevel = rankLevel;
         }else{
-            throw new IllegalArgumentException("Rank needs to be between " + rankLevMin + " and " + rankLevMax + ", inclusive.");
+            throw new IllegalArgumentException("dojomanager.main.models.Rank needs to be between " + rankLevMin + " and " + rankLevMax + ", inclusive.");
         }
     }
 
