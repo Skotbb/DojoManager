@@ -1,6 +1,8 @@
 package com.android.thompson.scott.dojomanager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -41,6 +43,15 @@ public class StudentListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_student_list, container, false);
 		mStudentRecyclerView = (RecyclerView) view.findViewById(R.id.student_recycler_view);
 		mStudentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+		FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.student_list_fab);
+		fab.setOnClickListener(v -> {
+			Student student = new Student();
+			DojoStorageManager.getInstance().addStudent(student);
+
+			Intent intent = StudentPagerActivity.newIntent(getActivity(), student.getId());
+			startActivity(intent);
+		});
 
 		updateUI();
 		// Inflate the layout for this fragment
@@ -92,6 +103,9 @@ public class StudentListFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			Toast.makeText(getActivity(), mStudent.getFullName() +" clicked.", Toast.LENGTH_SHORT).show();
+
+			Intent intent = StudentPagerActivity.newIntent(getActivity(), mStudent.getId());
+			startActivity(intent);
 		}
 	}
 

@@ -8,6 +8,36 @@
     <string name="settings_title">Settings</string>
     <string name="title_activity_student_list">StudentListActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_student_pager">StudentPagerActivity</string>
+
+        <!-- Spinner -->
+    <string-array name="rank_levels">
+        <item>10</item>
+        <item>9</item>
+        <item>8</item>
+        <item>7</item>
+        <item>6</item>
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="rank_types">
+        <item>Dan</item>
+        <item>Kyu</item>
+    </string-array>
+
+        <!--- Hints -->
+    <string name="student_label_names">Name</string>
+    <string name="student_first_name">First Name</string>
+    <string name="student_last_name">Last Name</string>
+    <string name="student_birthday">Birthday</string>
+    <string name="student_label_rank">Rank</string>
+    <string name="student_rank_level">Rank Level</string>
+    <string name="student_rank_type">Rank Type</string>
+    <string name="student_rank_timeInRank">Time in rank (hours)</string>
+
 </resources>

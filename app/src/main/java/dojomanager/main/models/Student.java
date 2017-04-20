@@ -18,12 +18,20 @@ public class Student {
     private boolean isPaidUp;
     private ArrayList<String> studentNotes;
 
-    public Student(String firstName, String lastName, Date birthDate, Rank rank) {
+    public Student() {
+		this._id = UUID.randomUUID();
+		this.rank = new Rank();
+		this.studentNotes = new ArrayList<>();
+		this.isPaidUp = false;
+		setBirthDate(Calendar.getInstance().getTime());
+	}
+
+	public Student(String firstName, String lastName, Date birthDate, Rank rank) {
         this._id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.rank = rank;
-        this.isPaidUp = true;
+        this.isPaidUp = false;
         this.studentNotes = new ArrayList<>();
 
 		setBirthDate(birthDate);
@@ -87,12 +95,20 @@ public class Student {
         isPaidUp = paidUp;
     }
 
+	public ArrayList<String> getStudentNotes() {
+		return studentNotes;
+	}
 
-    // Unit Testing.
-    public static void main(String[] args) {
-		Student scott = new Student("Scott", "Thompson", new Date(1985, 9, 23), new Rank(4, Rank.RankType.Dan));
+	public void addNote(String note) {
+		this.studentNotes.add(note);
+	}
 
-		System.out.println(scott.getFullName());
-		System.out.println(scott.getAge());
+	@Override
+	public String toString() {
+		String str;
+		str = String.format("%s, %d \n" +
+				"Rank: %s \n" +
+				"Birthday: %s \n", this.getFullName(), this.getAge(), this.getRank().toString(), this.getBirthDate().getTime().toString());
+		return str;
 	}
 }

@@ -1,5 +1,7 @@
 package dojomanager.storage.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,8 +27,22 @@ public class DojoStorageManager {
 		mStudents = new ArrayList<>();
 
 		//Test data
-		Student scott = new Student("Scott", "Thompson", new Date(1985, 9, 23), new Rank(4, Rank.RankType.Dan));
+		Date bDay = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			bDay = sdf.parse("1985-09-23");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Student scott = new Student("Scott", "Thompson", bDay, new Rank(4, Rank.RankType.Dan, 3000));
+		try {
+			bDay = sdf.parse("1987-10-05");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Student mark = new Student("Mark", "McGinty", bDay, new Rank(4, Rank.RankType.Dan, 100));
 		mStudents.add(scott);
+		mStudents.add(mark);
 	}
 
 	public void addStudent(Student kid) {
@@ -39,7 +55,7 @@ public class DojoStorageManager {
 
 	public Student getStudentById(UUID id) {
 		for(Student cur : mStudents) {
-			if(cur.getId() == id) {
+			if(cur.getId().equals(id)) {
 				return cur;
 			}
 		}

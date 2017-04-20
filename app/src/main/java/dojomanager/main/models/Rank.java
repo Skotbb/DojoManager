@@ -13,7 +13,14 @@ public class Rank {
     private RankType rank;
     private double timeInRank;
 
-    public Rank(int rankLevel, RankType rankType) {
+    public Rank() {
+		setRankLevelMinAndMax(1, 10);
+		this.rankLevel = getRankLevMax();
+		this.rank = RankType.Kyu;
+		this.timeInRank = 0.0;
+	}
+
+	public Rank(int rankLevel, RankType rankType) {
         this.rankLevel = rankLevel;
         this.rank = rankType;
         this.timeInRank = 0.0;
@@ -76,7 +83,15 @@ public class Rank {
         }
     }
 
-    public void promote(){
+	public int getRankLevMin() {
+		return rankLevMin;
+	}
+
+	public int getRankLevMax() {
+		return rankLevMax;
+	}
+
+	public void promote(){
             //If Kyu rank and lower than the minimum number, decrement number
         if(rank.equals(RankType.Kyu) && rankLevel > rankLevMin){
             rankLevel--;
@@ -90,6 +105,8 @@ public class Rank {
         if(rank.equals(RankType.Dan) && rankLevel < rankLevMax){
             rankLevel++;
         }
+            // Reset time in rank.
+        this.timeInRank = 0;
     }
 
     @Override
