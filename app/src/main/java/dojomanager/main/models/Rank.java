@@ -1,10 +1,12 @@
 package dojomanager.main.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Scott on 10/15/2016.
  */
 
-public class Rank {
+public class Rank implements Serializable{
     public enum RankType {Dan, Kyu};
 
     private int rankLevel;
@@ -61,7 +63,7 @@ public class Rank {
     }
 
     public void setTimeInRank(double timeInRank) {
-        if(timeInRank > 0 && timeInRank < 1000.0){
+        if(timeInRank >= 0 && timeInRank < 6000.0){
             this.timeInRank = timeInRank;
         }else{
             throw new IllegalArgumentException("The amount of time is invalid. Must be between 1 and 1000");

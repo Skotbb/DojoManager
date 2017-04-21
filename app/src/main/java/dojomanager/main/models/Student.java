@@ -1,5 +1,6 @@
 package dojomanager.main.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Scott on 10/15/2016.
  */
 
-public class Student {
+public class Student implements Serializable{
     private UUID _id;
     private String firstName, lastName;
     private Calendar birthDate;
@@ -98,6 +99,8 @@ public class Student {
 	public ArrayList<String> getStudentNotes() {
 		return studentNotes;
 	}
+
+	public void setStudentNotes(ArrayList<String> notes) {this.studentNotes = notes;}
 
 	public void addNote(String note) {
 		this.studentNotes.add(note);

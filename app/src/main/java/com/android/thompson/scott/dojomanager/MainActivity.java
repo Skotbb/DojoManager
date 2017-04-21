@@ -2,13 +2,11 @@ package com.android.thompson.scott.dojomanager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import static android.R.id.edit;
 
 public class MainActivity extends AppCompatActivity {
     public final String PREFS_NAME = "MY_PREFS";

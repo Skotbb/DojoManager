@@ -2,11 +2,12 @@ package com.android.thompson.scott.dojomanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,15 +17,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dojomanager.main.models.Student;
+import dojomanager.storage.models.DojoManager;
 import dojomanager.storage.models.DojoStorageManager;
 
 
 public class StudentListFragment extends Fragment {
 	private RecyclerView mStudentRecyclerView;
-	private StudentAdapter mAdapter;
+	protected StudentAdapter mAdapter;
 
 	public StudentListFragment() {
 		// Required empty public constructor
@@ -47,7 +50,7 @@ public class StudentListFragment extends Fragment {
 		FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.student_list_fab);
 		fab.setOnClickListener(v -> {
 			Student student = new Student();
-			DojoStorageManager.getInstance().addStudent(student);
+			DojoManager.getInstance().addStudent(student);
 
 			Intent intent = StudentPagerActivity.newIntent(getActivity(), student.getId());
 			startActivity(intent);
@@ -68,15 +71,26 @@ public class StudentListFragment extends Fragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void updateUI() {
-		DojoStorageManager dsm = DojoStorageManager.getInstance();
-		List<Student> students = dsm.getStudents();
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateUI();
+	}
 
-		if(mAdapter == null) {
-			mAdapter = new StudentAdapter(students);
-			mStudentRecyclerView.setAdapter(mAdapter);
-		} else {
-			mAdapter.notifyDataSetChanged();
+	private void updateUI() {
+		try {
+			DojoStorageManager dsm = new DojoStorageManager(getContext());
+			ArrayList<Student> students = dsm.readStudents();
+//			if(mAdapter == null) {
+				mAdapter = new StudentAdapter(students);
+				mStudentRecyclerView.setAdapter(mAdapter);
+//			} else {
+					// Y U No Work?
+//				mAdapter.notifyDataSetChanged();
+//			}
+		} catch (Exception e) {
+			Log.e("Student_List_Frag", e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -110,9 +124,9 @@ public class StudentListFragment extends Fragment {
 	}
 
 	private class StudentAdapter extends RecyclerView.Adapter<StudentHolder> {
-		private List<Student> mStudents;
+		private ArrayList<Student> mStudents;
 
-		public StudentAdapter(List<Student> students) {mStudents = students;}
+		public StudentAdapter(ArrayList<Student> students) {mStudents = students;}
 
 		@Override
 		public StudentHolder onCreateViewHolder(ViewGroup parent, int viewType) {

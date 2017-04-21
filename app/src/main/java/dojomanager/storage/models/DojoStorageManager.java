@@ -1,68 +1,83 @@
 package dojomanager.storage.models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import android.content.Context;
+import android.util.Log;
 
-import dojomanager.main.models.Rank;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import dojomanager.main.models.Student;
 
 /**
- * Created by Scott on 4/18/2017.
+ * Created by Scott on 4/20/2017.
  */
 
-public class DojoStorageManager {
-	private static final DojoStorageManager ourInstance = new DojoStorageManager();
-	private List<Student> mStudents;
+public class DojoStorageManager implements DojoStorageInterface {
+	private static final String DOJO_DIAG = "DojoStorageManager_diag";
+	private static final String DOJO_STUDENTS_FILENAME = "DojoStudents.dat";
 
-	public static DojoStorageManager getInstance() {
-		return ourInstance;
+	private DojoManager dm;
+	private Context mContext;
+
+	public DojoStorageManager(Context context) {
+		dm = DojoManager.getInstance();
+		mContext = context;
 	}
 
-	private DojoStorageManager() {
-		mStudents = new ArrayList<>();
+	@Override
+	public ArrayList<Student> readStudents() {
+		ArrayList<Student> tempList;
 
-		//Test data
-		Date bDay = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			bDay = sdf.parse("1985-09-23");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Student scott = new Student("Scott", "Thompson", bDay, new Rank(4, Rank.RankType.Dan, 3000));
-		try {
-			bDay = sdf.parse("1987-10-05");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Student mark = new Student("Mark", "McGinty", bDay, new Rank(4, Rank.RankType.Dan, 100));
-		mStudents.add(scott);
-		mStudents.add(mark);
-	}
-
-	public void addStudent(Student kid) {
-		if(!mStudents.contains(kid)) {
-			mStudents.add(kid);
-		}
-	}
-
-	public List<Student> getStudents() {return mStudents;}
-
-	public Student getStudentById(UUID id) {
-		for(Student cur : mStudents) {
-			if(cur.getId().equals(id)) {
-				return cur;
+			// Open file input stream
+			FileInputStream fis = mContext.openFileInput(DOJO_STUDENTS_FILENAME);
+			// Open object input stream
+			ObjectInputStream in = new ObjectInputStream(fis);
+			// Read mStudents array list
+			tempList = (ArrayList<Student>) in.readObject();
+			if(tempList == null) {
+				return null;
 			}
+			dm.setStudents(tempList);
+			return dm.getStudents();
+		} catch (IOException | ClassNotFoundException e) {
+			Log.e(DOJO_DIAG, e.getMessage());
+			return null;
 		}
-		return null;
 	}
 
-	public void writeStudents() {
+	@Override
+	public boolean writeStudents() {
+		try {
+			// Open file stream
+			FileOutputStream fos = mContext.openFileOutput(DOJO_STUDENTS_FILENAME, Context.MODE_PRIVATE);
+			// Open object output stream.
+			ObjectOutputStream out = new ObjectOutputStream(fos);
 
+			// Write mStudents array to file stream.
+			logMessage("Writing to device.");
+			out.writeObject(dm.getStudents());
+			logMessage("Finished.");
+			// Close streams.
+			out.close();
+			fos.close();
+			logMessage("Closed.");
+			return true;
+		}catch(IOException e) {
+			Log.e(DOJO_DIAG, e.getMessage());
+			return false;
+		}
+	}
+
+	private void logMessage(String message) {
+		Log.d(DOJO_DIAG, message);
 	}
 }
+
+
+

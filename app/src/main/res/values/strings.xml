@@ -12,6 +12,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_student_pager">StudentPagerActivity</string>
 
+    <string name="save">Save</string>
+
         <!-- Spinner -->
     <string-array name="rank_levels">
         <item>10</item>
@@ -39,5 +41,7 @@
     <string name="student_rank_level">Rank Level</string>
     <string name="student_rank_type">Rank Type</string>
     <string name="student_rank_timeInRank">Time in rank (hours)</string>
+    <string name="student_rank_promote">Promote Student</string>
+    <string name="student_label_age">Age</string>
 
 </resources>

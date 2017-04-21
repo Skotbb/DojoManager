@@ -1,11 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.android.thompson.scott.dojomanager.StudentFragment">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="com.android.thompson.scott.dojomanager.StudentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/student_label_names"
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:divider="@color/colorAccent"
         android:orientation="horizontal"
-        android:padding="5dp">
+        >
 
         <EditText
             android:id="@+id/student_firstName_et"
@@ -28,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/student_first_name"
-            android:selectAllOnFocus="true"
-            android:text="First Name"/>
+            android:selectAllOnFocus="true"/>
 
         <EditText
             android:id="@+id/student_lastName_et"
@@ -37,8 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/student_last_name"
-            android:selectAllOnFocus="true"
-            android:text="Last Name"/>
+            android:selectAllOnFocus="true"/>
     </LinearLayout>
 
     <Space
@@ -47,7 +47,7 @@
         android:background="@color/colorPrimary"/>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/student_label_rank"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,14 +57,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:orientation="vertical"
-        android:padding="5dp">
+        >
 
         <LinearLayout
+            android:id="@+id/student_fragment_rankDropdowns"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Spinner
@@ -79,17 +78,86 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/student_timeInRank_et"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/student_fragment_timeInRank_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/student_rank_timeInRank"
+                />
+
+            <EditText
+                android:id="@+id/student_timeInRank_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/student_rank_timeInRank"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/student_promote_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:ems="10"
-            android:hint="@string/student_rank_timeInRank"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"/>
+            android:text="@string/student_rank_promote"/>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/student_label_age"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/student_label_age"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/student_changeBday_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Button"/>
+
+        <TextView
+            android:id="@+id/student_age_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="@string/student_label_age"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <TextView
+            android:id="@+id/student_age_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="5dp"
+            android:text="TextView"/>
+
     </LinearLayout>
 
 </LinearLayout>
