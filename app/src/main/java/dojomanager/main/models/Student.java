@@ -1,5 +1,7 @@
 package dojomanager.main.models;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,7 +12,7 @@ import java.util.UUID;
  * Created by Scott on 10/15/2016.
  */
 
-public class Student implements Serializable{
+public class Student implements Serializable, Comparable<Student>{
     private UUID _id;
     private String firstName, lastName;
     private Calendar birthDate;
@@ -113,5 +115,11 @@ public class Student implements Serializable{
 				"Rank: %s \n" +
 				"Birthday: %s \n", this.getFullName(), this.getAge(), this.getRank().toString(), this.getBirthDate().getTime().toString());
 		return str;
+	}
+
+	@Override
+	public int compareTo(@NonNull Student another) {
+		int last = this.getRank().getRank().toString().compareTo(another.getRank().getRank().toString());
+		return last != 0 ? last : String.valueOf(another.getRank().getRankLevel()).compareTo(String.valueOf(this.getRank().getRankLevel()));
 	}
 }

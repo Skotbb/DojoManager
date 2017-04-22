@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,6 +68,7 @@ public class DojoManager {
 
 	public boolean setStudents(ArrayList<Student> students) {
 		this.mStudents = students;
+		Collections.sort(this.mStudents);
 		return true;
 	}
 

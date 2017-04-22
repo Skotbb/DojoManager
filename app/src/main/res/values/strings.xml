@@ -13,6 +13,9 @@
     <string name="title_activity_student_pager">StudentPagerActivity</string>
 
     <string name="save">Save</string>
+    <string name="save_failed">Save failed.</string>
+    <string name="delete">Delete</string>
+    <string name="removed">Removed</string>
 
         <!-- Spinner -->
     <string-array name="rank_levels">
@@ -43,5 +46,6 @@
     <string name="student_rank_timeInRank">Time in rank (hours)</string>
     <string name="student_rank_promote">Promote Student</string>
     <string name="student_label_age">Age</string>
+    <string name="student_label_paid">Paid</string>
 
 </resources>

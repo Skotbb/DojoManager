@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import dojomanager.storage.models.DojoStorageManager;
 public class StudentListFragment extends Fragment {
 	private RecyclerView mStudentRecyclerView;
 	protected StudentAdapter mAdapter;
+	private DojoStorageManager mDsm;
 
 	public StudentListFragment() {
 		// Required empty public constructor
@@ -46,17 +48,19 @@ public class StudentListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_student_list, container, false);
 		mStudentRecyclerView = (RecyclerView) view.findViewById(R.id.student_recycler_view);
 		mStudentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		mDsm = new DojoStorageManager(getContext());
+		updateUI();
 
 		FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.student_list_fab);
 		fab.setOnClickListener(v -> {
 			Student student = new Student();
 			DojoManager.getInstance().addStudent(student);
+			mDsm.writeStudents();
 
 			Intent intent = StudentPagerActivity.newIntent(getActivity(), student.getId());
 			startActivity(intent);
 		});
 
-		updateUI();
 		// Inflate the layout for this fragment
 		return view;
 	}
@@ -79,8 +83,13 @@ public class StudentListFragment extends Fragment {
 
 	private void updateUI() {
 		try {
-			DojoStorageManager dsm = new DojoStorageManager(getContext());
-			ArrayList<Student> students = dsm.readStudents();
+			if(mDsm == null) {
+				mDsm = new DojoStorageManager(getContext());
+			}
+			ArrayList<Student> students = mDsm.readStudents();
+			if(students == null) {
+				students = mDsm.getDojoManager().getStudents();
+			}
 //			if(mAdapter == null) {
 				mAdapter = new StudentAdapter(students);
 				mStudentRecyclerView.setAdapter(mAdapter);
@@ -98,6 +107,7 @@ public class StudentListFragment extends Fragment {
 	private class StudentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private TextView mStudentName,
 				mStudentRank;
+		private CheckBox mPaid;
 		private Student mStudent;
 
 		public StudentHolder(View itemView) {
@@ -106,18 +116,34 @@ public class StudentListFragment extends Fragment {
 
 			mStudentName = (TextView) itemView.findViewById(R.id.list_item_student_studentName);
 			mStudentRank = (TextView) itemView.findViewById(R.id.list_item_student_rank);
+			mPaid = (CheckBox) itemView.findViewById(R.id.list_item_isPaid_cb);
+
+
 		}
 
 		public void bindStudent(Student student) {
 			mStudent = student;
 			mStudentName.setText(mStudent.getFullName() +", "+ mStudent.getAge());
 			mStudentRank.setText(mStudent.getRank().toString());
+			mPaid.setChecked(mStudent.isPaidUp());
+
+			mPaid.setOnClickListener(new CheckBox.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mStudent.setPaidUp(mPaid.isChecked());
+				}
+			});
 		}
 
 		@Override
 		public void onClick(View v) {
 			Toast.makeText(getActivity(), mStudent.getFullName() +" clicked.", Toast.LENGTH_SHORT).show();
 
+			if(mDsm != null) {
+				mDsm.writeStudents();
+			} else {
+				Toast.makeText(getContext(), "Save Failed.", Toast.LENGTH_SHORT).show();
+			}
 			Intent intent = StudentPagerActivity.newIntent(getActivity(), mStudent.getId());
 			startActivity(intent);
 		}

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 	private EditText mFirstName, mLastName, mTimeRank;
 	private TextView mAge;
 	private Button mPromote, mBday;
+	private CheckBox mPaid;
 
 	public StudentFragment() {
 		// Required empty public constructor
@@ -108,6 +110,16 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 				saveStudent(getContext());
 				return true;
 			}
+			case R.id.menu_item_student_delete : {
+				if(mManager.getStudents().remove(mStudent)) {
+					Toast.makeText(getContext(), R.string.removed, Toast.LENGTH_SHORT).show();
+					dsm.writeStudents();
+					getActivity().finish();
+					return true;
+				} else {
+					Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
+				}
+			}
 
 			default: return super.onOptionsItemSelected(item);
 		}
@@ -118,6 +130,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mLastName = (EditText) v.findViewById(R.id.student_lastName_et);
 		mTimeRank = (EditText) v.findViewById(R.id.student_timeInRank_et);
 		mAge = (TextView) v.findViewById(R.id.student_age_tv);
+		mPaid = (CheckBox) v.findViewById(R.id.student_isPaid_cb);
 
 
 		mFirstName.setText(student.getFirstName());
@@ -126,6 +139,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mRankLevel.setSelection(getArrayAdapter(R.array.rank_levels).getPosition(String.valueOf(mStudent.getRank().getRankLevel())));
 		mRankType.setSelection(getArrayAdapter(R.array.rank_types).getPosition(String.valueOf(mStudent.getRank().getRank())));
 		updateBirthday();
+		mPaid.setChecked(mStudent.isPaidUp());
 	}
 
 	private ArrayAdapter<CharSequence> getArrayAdapter(int arrayResource) {
@@ -150,6 +164,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mFirstName = (EditText) v.findViewById(R.id.student_firstName_et);
 		mLastName = (EditText) v.findViewById(R.id.student_lastName_et);
 		mTimeRank = (EditText) v.findViewById(R.id.student_timeInRank_et);
+		mPaid = (CheckBox) v.findViewById(R.id.student_isPaid_cb);
 
 		mStudent.setFirstName(mFirstName.getText().toString());
 		mStudent.setLastName(mLastName.getText().toString());
@@ -159,6 +174,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mStudent.getRank().setRankLevel(Integer.valueOf(mRankLevel.getSelectedItem().toString()));
 		mStudent.getRank().setTimeInRank(Double.valueOf(mTimeRank.getText().toString()));
 		mStudent.getRank().setRank(mRankType.getSelectedItem().toString().equals(Rank.RankType.Dan.toString()) ? Rank.RankType.Dan : Rank.RankType.Kyu);
+		mStudent.setPaidUp(mPaid.isChecked());
 //		tempStudent = new Student(fName, lName, Calendar.getInstance().getTime(), new Rank(rankLevel, rankType, timeInRank));
 //		return tempStudent;
 	}
@@ -170,7 +186,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		if (dsm.writeStudents()) {
 			Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
 		} else {
-			Toast.makeText(context, "Save Failed", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, R.string.save_failed, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -202,6 +218,17 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			mStudent.setBirthDate(date);
 			updateBirthday();
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if(dsm == null) {
+			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
+		}
+		if(!dsm.writeStudents()){
+			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

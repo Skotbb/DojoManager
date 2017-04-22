@@ -27,6 +27,15 @@ public class DojoStorageManager implements DojoStorageInterface {
 	public DojoStorageManager(Context context) {
 		dm = DojoManager.getInstance();
 		mContext = context;
+
+		ArrayList<Student> temp = readStudents();
+		if(temp != null) {
+			dm.setStudents(temp);
+		}
+	}
+
+	public DojoManager getDojoManager() {
+		return dm;
 	}
 
 	@Override

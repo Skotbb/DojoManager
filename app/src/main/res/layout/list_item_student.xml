@@ -2,14 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
+              android:layout_margin="3dp"
+              android:background="@drawable/border"
+              android:orientation="vertical"
+              android:padding="10dp">
 
-    <TextView
-        android:id="@+id/list_item_student_studentName"
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"/>
+        android:layout_weight="0"
+        android:columnCount="2">
+
+        <TextView
+            android:id="@+id/list_item_student_studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:text="TextView"/>
+
+        <CheckBox
+            android:id="@+id/list_item_isPaid_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="right"
+            android:layout_row="0"
+            android:padding="3dp"
+            android:text="@string/student_label_paid"/>
+    </GridLayout>
 
     <TextView
         android:id="@+id/list_item_student_rank"
