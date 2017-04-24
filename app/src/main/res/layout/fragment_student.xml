@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/student_first_name"
-            android:selectAllOnFocus="true"/>
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
 
         <EditText
             android:id="@+id/student_lastName_et"
@@ -53,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/student_last_name"
-            android:selectAllOnFocus="true"/>
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
     </LinearLayout>
 
     <Space
@@ -174,5 +176,33 @@
             android:text="TextView"/>
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/student_label_notes"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/student_label_notes"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0"
+        android:background="@color/colorPrimary"/>
+
+    <Button
+        android:id="@+id/student_viewNotes_button"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="@string/student_button_viewNotes"/>
 
 </LinearLayout>

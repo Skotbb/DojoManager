@@ -137,7 +137,7 @@ public class StudentListFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getActivity(), mStudent.getFullName() +" clicked.", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(getActivity(), mStudent.getFullName() +" clicked.", Toast.LENGTH_SHORT).show();
 
 			if(mDsm != null) {
 				mDsm.writeStudents();

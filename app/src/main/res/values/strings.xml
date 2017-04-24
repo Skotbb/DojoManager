@@ -17,7 +17,7 @@
     <string name="delete">Delete</string>
     <string name="removed">Removed</string>
 
-        <!-- Spinner -->
+    <!-- Spinner -->
     <string-array name="rank_levels">
         <item>10</item>
         <item>9</item>
@@ -35,7 +35,7 @@
         <item>Kyu</item>
     </string-array>
 
-        <!--- Hints -->
+    <!--- Hints -->
     <string name="student_label_names">Name</string>
     <string name="student_first_name">First Name</string>
     <string name="student_last_name">Last Name</string>
@@ -47,5 +47,8 @@
     <string name="student_rank_promote">Promote Student</string>
     <string name="student_label_age">Age</string>
     <string name="student_label_paid">Paid</string>
+    <string name="student_label_notes">Notes</string>
+    <string name="student_button_viewNotes">View notes</string>
+    <string name="student_note_addNote">Add note</string>
 
 </resources>

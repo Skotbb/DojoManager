@@ -1,6 +1,7 @@
 package dojomanager.main.models;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -108,6 +109,15 @@ public class Student implements Serializable, Comparable<Student>{
 		this.studentNotes.add(note);
 	}
 
+	public String getNoteAt(int position) {
+		try {
+			 return this.studentNotes.get(position);
+		} catch (NullPointerException e) {
+			Log.e("STUDENT", e.getMessage());
+		}
+		return null;
+	}
+
 	@Override
 	public String toString() {
 		String str;
@@ -118,8 +128,29 @@ public class Student implements Serializable, Comparable<Student>{
 	}
 
 	@Override
-	public int compareTo(@NonNull Student another) {
-		int last = this.getRank().getRank().toString().compareTo(another.getRank().getRank().toString());
-		return last != 0 ? last : String.valueOf(another.getRank().getRankLevel()).compareTo(String.valueOf(this.getRank().getRankLevel()));
+	public int compareTo(@NonNull Student that) {
+		int last = this.getRank().getRank().toString().compareTo(that.getRank().getRank().toString());
+
+			// If rank type is the same.
+		if(last == 0) {
+			//  If their ranks are both Dan
+			if(this.getRank().getRank().toString().equals(Rank.RankType.Dan)) {
+				// If their rank levels are the same
+				if(this.getRank().getRankLevel() == that.getRank().getRankLevel()) {
+					return this.getRank().getTimeInRank() < that.getRank().getTimeInRank() ? 1 : -1;
+				} else {	// If their rank levels differ. Dan higher number is better.
+					return this.getRank().getRankLevel() > that.getRank().getRankLevel() ? 1 : -1;
+				}
+			} else {	// If their ranks are both Kyu
+				// If their rank levels are the same
+				if(this.getRank().getRankLevel() == that.getRank().getRankLevel()) {
+					return this.getRank().getTimeInRank() < that.getRank().getTimeInRank() ? 1 : -1;
+				} else {	// If their rank levels differ. Kyu lower number is better.
+					return this.getRank().getRankLevel() < that.getRank().getRankLevel() ? 1 : -1;
+				}
+			}
+		} else {	// If rank types are different, return the compare.
+			return last;
+		}
 	}
 }

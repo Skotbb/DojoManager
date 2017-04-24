@@ -32,6 +32,8 @@ import dojomanager.main.models.Student;
 import dojomanager.storage.models.DojoManager;
 import dojomanager.storage.models.DojoStorageManager;
 
+import static android.R.attr.data;
+
 
 public class StudentFragment extends Fragment implements Button.OnClickListener{
 	private static final String ARG_STUDENT_ID = "student_id";
@@ -47,7 +49,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 	mRankType;
 	private EditText mFirstName, mLastName, mTimeRank;
 	private TextView mAge;
-	private Button mPromote, mBday;
+	private Button mPromote, mBday, mViewNotes;
 	private CheckBox mPaid;
 
 	public StudentFragment() {
@@ -84,6 +86,8 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mPromote.setOnClickListener(this);
 		mBday = (Button) mMainView.findViewById(R.id.student_changeBday_button);
 		mBday.setOnClickListener(this);
+		mViewNotes = (Button) mMainView.findViewById(R.id.student_viewNotes_button);
+		mViewNotes.setOnClickListener(this);
 
 		UUID studentId = (UUID) getArguments().getSerializable(ARG_STUDENT_ID);
 			// Data managers
@@ -166,13 +170,13 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mTimeRank = (EditText) v.findViewById(R.id.student_timeInRank_et);
 		mPaid = (CheckBox) v.findViewById(R.id.student_isPaid_cb);
 
-		mStudent.setFirstName(mFirstName.getText().toString());
-		mStudent.setLastName(mLastName.getText().toString());
+		mStudent.setFirstName(mFirstName.getText().toString().trim());
+		mStudent.setLastName(mLastName.getText().toString().trim());
 //		temp = mRankLevel.getSelectedItem().toString();
 //		rankLevel = Integer.valueOf(temp);
 //		mStudent.getRank().setRankLevel(rankLevel);
 		mStudent.getRank().setRankLevel(Integer.valueOf(mRankLevel.getSelectedItem().toString()));
-		mStudent.getRank().setTimeInRank(Double.valueOf(mTimeRank.getText().toString()));
+		mStudent.getRank().setTimeInRank(Double.valueOf(mTimeRank.getText().toString().trim()));
 		mStudent.getRank().setRank(mRankType.getSelectedItem().toString().equals(Rank.RankType.Dan.toString()) ? Rank.RankType.Dan : Rank.RankType.Kyu);
 		mStudent.setPaidUp(mPaid.isChecked());
 //		tempStudent = new Student(fName, lName, Calendar.getInstance().getTime(), new Rank(rankLevel, rankType, timeInRank));
@@ -204,7 +208,12 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 				DatePickerFragment dialog = DatePickerFragment.newInstance(mStudent.getBirthDate().getTime());
 				dialog.setTargetFragment(StudentFragment.this, REQUEST_DATE);
 				dialog.show(fm, DIALOG_DATE);
-			}
+			} break;
+			case R.id.student_viewNotes_button : {
+				saveStudent(getContext());
+				Intent intent = NotesListActivity.newInstance(getContext(), mStudent.getId());
+				startActivity(intent);
+			} break;
 		}
 	}
 
@@ -227,8 +236,9 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		if(dsm == null) {
 			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
 		}
-		if(!dsm.writeStudents()){
-			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
-		}
+//		if(!dsm.writeStudents()){
+//			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
+//		}
+		saveStudent(getContext());
 	}
 }

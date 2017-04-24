@@ -32,6 +32,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.thompson.scott.dojomanager.StudentListActivity"/>
         </activity>
+        <activity android:name=".NotesListActivity">
+        </activity>
     </application>
 
 </manifest>

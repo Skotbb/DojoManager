@@ -19,7 +19,7 @@ import dojomanager.storage.models.DojoManager;
 
 public class StudentPagerActivity extends AppCompatActivity {
 	private static final String EXTRA_STUDENT_ID = "scott.dojomanager.student_id";
-	private Context mContext;
+
 	private ViewPager mViewPager;
 	private ArrayList<Student> mStudents;
 
