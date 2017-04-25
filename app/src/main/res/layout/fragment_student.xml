@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.android.thompson.scott.dojomanager.StudentFragment">
@@ -12,70 +13,84 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/student_label_names"
+                style="?android:listSeparatorTextViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/student_label_names"/>
+
+            <CheckBox
+                android:id="@+id/student_isPaid_cb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center"
+                android:text="@string/student_label_paid"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/colorAccent"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/student_firstName_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/student_first_name"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"/>
+
+            <EditText
+                android:id="@+id/student_lastName_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/student_last_name"
+                android:maxLines="1"
+                android:selectAllOnFocus="true"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/student_label_names"
+            android:id="@+id/student_label_rank"
             style="?android:listSeparatorTextViewStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="@string/student_label_names"/>
-
-        <CheckBox
-            android:id="@+id/student_isPaid_cb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center"
-            android:text="@string/student_label_paid"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/colorAccent"
-        android:orientation="horizontal"
-        >
-
-        <EditText
-            android:id="@+id/student_firstName_et"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/student_first_name"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"/>
-
-        <EditText
-            android:id="@+id/student_lastName_et"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/student_last_name"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"/>
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/colorPrimary"/>
-
-    <TextView
-        android:id="@+id/student_label_rank"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="@string/student_label_rank"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+            android:layout_weight="0"
+            android:text="@string/student_label_rank"/>
 
         <LinearLayout
             android:id="@+id/student_fragment_rankDropdowns"
@@ -97,6 +112,12 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_weight="0"
+            android:background="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,65 +152,55 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="0"
-        android:background="@color/colorPrimary"/>
-
-    <TextView
-        android:id="@+id/student_label_age"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="@string/student_label_age"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/student_changeBday_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Button"/>
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/student_age_label"
-            android:layout_width="0dp"
+            android:id="@+id/student_label_age"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:text="@string/student_label_age"
-            android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:layout_weight="0"
+            android:text="@string/student_label_age"/>
 
-        <TextView
-            android:id="@+id/student_age_tv"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:padding="5dp"
-            android:text="TextView"/>
+            android:layout_weight="0"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/student_changeBday_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Button"/>
+
+            <TextView
+                android:id="@+id/student_age_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="@string/student_label_age"
+                android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+            <TextView
+                android:id="@+id/student_age_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:text="TextView"/>
+
+        </LinearLayout>
     </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="0"
-        android:background="@color/colorPrimary"/>
-
-    <TextView
-        android:id="@+id/student_label_notes"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="@string/student_label_notes"/>
 
     <Space
         android:layout_width="match_parent"
@@ -203,6 +214,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
+        android:background="#ffffff"
+        android:elevation="5dp"
         android:text="@string/student_button_viewNotes"/>
 
 </LinearLayout>

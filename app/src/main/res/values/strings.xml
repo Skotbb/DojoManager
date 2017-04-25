@@ -6,11 +6,11 @@
     <string name="const_shared_pref_isSetup">PREFS_IS_SETUP</string>
 
     <string name="settings_title">Settings</string>
-    <string name="title_activity_student_list">StudentListActivity</string>
+    <string name="title_activity_student_list">Student Management</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_student_pager">StudentPagerActivity</string>
+    <string name="title_activity_student_pager">Student Management</string>
 
     <string name="save">Save</string>
     <string name="save_failed">Save failed.</string>
@@ -34,6 +34,15 @@
         <item>Dan</item>
         <item>Kyu</item>
     </string-array>
+
+    <!-- Drawer Items -->
+    <string-array name="main_drawer_items">
+        <item>Class Calendar</item>
+        <item>Student Management</item>
+        <item>Dojo Settings</item>
+    </string-array>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <!--- Hints -->
     <string name="student_label_names">Name</string>

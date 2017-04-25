@@ -22,6 +22,7 @@ public class StudentPagerActivity extends AppCompatActivity {
 
 	private ViewPager mViewPager;
 	private ArrayList<Student> mStudents;
+	private CharSequence mTitle;
 
 	public static Intent newIntent(Context packageContext, UUID studentId) {
 		Intent intent = new Intent(packageContext, StudentPagerActivity.class);
@@ -37,6 +38,10 @@ public class StudentPagerActivity extends AppCompatActivity {
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.student_pager_toolbar);
 		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		mTitle = getSupportActionBar().getTitle();
 
 		mViewPager = (ViewPager) findViewById(R.id.activity_student_pager_view_pager);
 
@@ -64,4 +69,9 @@ public class StudentPagerActivity extends AppCompatActivity {
 		}
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getSupportActionBar().setTitle(mTitle);
+	}
 }

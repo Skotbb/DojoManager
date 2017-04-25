@@ -135,10 +135,16 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mTimeRank = (EditText) v.findViewById(R.id.student_timeInRank_et);
 		mAge = (TextView) v.findViewById(R.id.student_age_tv);
 		mPaid = (CheckBox) v.findViewById(R.id.student_isPaid_cb);
+		String temp = "New Student";
 
 
 		mFirstName.setText(student.getFirstName());
 		mLastName.setText(student.getLastName());
+		if(!student.getFullName().equals(null) && student.getFullName().length() > 1) {
+			getActivity().setTitle(student.getFullName());
+		} else {
+			getActivity().setTitle(temp);
+		}
 		mTimeRank.setText(String.valueOf(student.getRank().getTimeInRank()));
 		mRankLevel.setSelection(getArrayAdapter(R.array.rank_levels).getPosition(String.valueOf(mStudent.getRank().getRankLevel())));
 		mRankType.setSelection(getArrayAdapter(R.array.rank_types).getPosition(String.valueOf(mStudent.getRank().getRank())));
