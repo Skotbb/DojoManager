@@ -23,17 +23,25 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.thompson.scott.dojomanager.MainActivity"/>
-            </activity>
+        </activity>
         <activity
             android:name=".StudentPagerActivity"
             android:label="@string/title_activity_student_pager"
-            android:parentActivityName=".StudentListActivity"
-            >
+            android:parentActivityName=".StudentListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.thompson.scott.dojomanager.StudentListActivity"/>
         </activity>
         <activity android:name=".NotesListActivity">
+        </activity>
+        <activity
+            android:name=".DateClassListActivity"
+            android:label="@string/title_activity_date_class_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.thompson.scott.dojomanager.MainActivity"/>
         </activity>
     </application>
 

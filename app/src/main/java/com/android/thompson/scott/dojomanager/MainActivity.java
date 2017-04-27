@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
 				R.layout.drawer_list_item, mDrawerItems));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+		// Default to class calendar.
+		selectItem(0);
+
 //        //Get SharedPreferences and check if Dojo has been set up.
 //        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 //        boolean isSetup = settings.getBoolean(getString(R.string.const_shared_pref_isSetup), false);
@@ -132,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
 		switch (position) {
 			case 0: {
 				// Class calendar
+				ClassCalendar frag = new ClassCalendar();
+				FragmentManager fm = getSupportFragmentManager();
+				fm.beginTransaction()
+						.replace(R.id.activity_main_content_frame, frag)
+						.addToBackStack(null)
+						.commit();
 			}
 			break;
 			case 1: {
@@ -147,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 			break;
 			case 2: {
 				// Dojo Settings
+				Toast.makeText(this, "Not implemented, yet", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}

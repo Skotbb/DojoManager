@@ -1,0 +1,10 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/date_class_list_fragmentHolder"
+             android:name="com.android.thompson.scott.dojomanager.DateClassListActivityFragment"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#eeeeee"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+             tools:layout="@layout/fragment_date_class_list"/>

@@ -59,5 +59,10 @@
     <string name="student_label_notes">Notes</string>
     <string name="student_button_viewNotes">View notes</string>
     <string name="student_note_addNote">Add note</string>
+    <string name="title_activity_date_class_list">DateClassListActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="dojoClass_studentCount">Students:</string>
+    <string name="class_label">Class Label</string>
+    <string name="class_duration_label">Duration</string>
 
 </resources>
