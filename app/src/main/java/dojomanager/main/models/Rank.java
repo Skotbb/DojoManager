@@ -72,7 +72,7 @@ public class Rank implements Serializable{
 
     public void addTimeInRank(double addTime){
         if(addTime > 0 && addTime < 1000.0){
-            timeInRank += addTime;
+            this.timeInRank += addTime;
         }else{
             throw new IllegalArgumentException("The amount of time is invalid. Must be between 1 and 1000");
         }

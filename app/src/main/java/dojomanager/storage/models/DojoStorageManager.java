@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.UUID;
 
 import dojomanager.main.models.DojoClass;
 import dojomanager.main.models.Student;
@@ -32,8 +33,8 @@ public class DojoStorageManager implements DojoStorageInterface {
 	private Context mContext;
 
 	public DojoStorageManager(Context context) {
-		dm = DojoManager.getInstance();
-		mContext = context;
+		this.dm = DojoManager.getInstance();
+		this.mContext = context;
 
 		readAllData();
 		for(String key : dm.getClasses().keySet()) {
@@ -54,7 +55,14 @@ public class DojoStorageManager implements DojoStorageInterface {
 	}
 
 	public DojoManager getDojoManager() {
-		return dm;
+		return this.dm;
+	}
+
+	public ArrayList<Student> getStudent() {
+		return this.dm.getStudents();
+	}
+	public Student getStudentByID(UUID id) {
+		return this.dm.getStudentById(id);
 	}
 
 	@Override
@@ -194,26 +202,26 @@ public class DojoStorageManager implements DojoStorageInterface {
 
 	public boolean readAllData() {
 		if (dm == null) {
-			dm = DojoManager.getInstance();
+			this.dm = DojoManager.getInstance();
 		}
 
 		ArrayList<Student> studList = readStudents();
 		if(studList != null) {
-			dm.setStudents(studList);
+			this.dm.setStudents(studList);
 		} else {
 			logMessage("Issue with students");
 			return false;
 		}
 		HashMap<String, HashSet<DojoClass>> classList = readClasses();
 		if(classList != null) {
-			dm.setClasses(classList);
+			this.dm.setClasses(classList);
 		}else {
 			logMessage("Issue with classes.");
 			return false;
 		}
 		HashSet<Date> dateList = readClassDates();
 		if(dateList != null) {
-			dm.setDates(dateList);
+			this.dm.setDates(dateList);
 		}else {
 			logMessage("Issue with class dates.");
 			return false;

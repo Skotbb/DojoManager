@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import dojomanager.main.models.Student;
 import dojomanager.storage.models.DojoManager;
+import dojomanager.storage.models.DojoStorageManager;
 
 public class StudentPagerActivity extends AppCompatActivity {
 	private static final String EXTRA_STUDENT_ID = "scott.dojomanager.student_id";
@@ -23,6 +24,8 @@ public class StudentPagerActivity extends AppCompatActivity {
 	private ViewPager mViewPager;
 	private ArrayList<Student> mStudents;
 	private CharSequence mTitle;
+
+	private DojoStorageManager mDsm;
 
 	public static Intent newIntent(Context packageContext, UUID studentId) {
 		Intent intent = new Intent(packageContext, StudentPagerActivity.class);
@@ -46,7 +49,10 @@ public class StudentPagerActivity extends AppCompatActivity {
 		mViewPager = (ViewPager) findViewById(R.id.activity_student_pager_view_pager);
 
 		UUID studentId = (UUID) getIntent().getSerializableExtra(EXTRA_STUDENT_ID);
-		mStudents = DojoManager.getInstance().getStudents();
+		if(mDsm == null) {
+			mDsm = new DojoStorageManager(getApplicationContext());
+		}
+		mStudents = mDsm.getDojoManager().getStudents();
 		FragmentManager fm = getSupportFragmentManager();
 		mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
 			@Override

@@ -1,5 +1,7 @@
 package com.android.thompson.scott.dojomanager;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,9 @@ public class DateClassListFragment extends Fragment {
 
 		mDate = getArguments().getParcelable(ClassCalendar.EXTRA_DATE_CLASS);
 		mDsm = new DojoStorageManager(getContext());
+
+		DateClassListActivity dad = (DateClassListActivity) getActivity();
+		dad.setToolBarColor(getResources().getColor(R.color.toolBarColor));
 
 		Date tempDate = mDate.getDate();
 		if(mDsm.getDojoManager().getClasses().containsKey(tempDate.toString())) {
@@ -91,6 +97,7 @@ public class DateClassListFragment extends Fragment {
 	private class DojoClassHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		DojoClass mClass;
 
+		LinearLayout mContainer;
 		TextView mLabel,
 				mStudentCount,
 				mDuration;
@@ -99,6 +106,7 @@ public class DateClassListFragment extends Fragment {
 			super(itemView);
 			itemView.setOnClickListener(this);
 
+			mContainer = (LinearLayout) itemView;
 			mLabel = (TextView) itemView.findViewById(R.id.list_item_class_label);
 			mStudentCount = (TextView) itemView.findViewById(R.id.list_item_class_students);
 			mDuration = (TextView) itemView.findViewById(R.id.list_item_class_duration);
@@ -109,6 +117,7 @@ public class DateClassListFragment extends Fragment {
 			mLabel.setText(mClass.getClassName());
 			mStudentCount.setText(getString(R.string.dojoClass_studentCount) + " " + String.valueOf(mClass.getAttendance().size()));
 			mDuration.setText(String.valueOf(mClass.getClassDuration()) + " hrs");
+			mContainer.setBackground(new ColorDrawable(Color.parseColor(mClass.getColor())));
 		}
 
 		@Override

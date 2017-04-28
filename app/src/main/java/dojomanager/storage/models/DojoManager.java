@@ -29,9 +29,9 @@ public class DojoManager {
 	}
 
 	private DojoManager() {
-		mStudents = new ArrayList<>();
-		mDates = new HashSet<>();
-		mClasses = new HashMap<>();
+		this.mStudents = new ArrayList<>();
+		this.mDates = new HashSet<>();
+		this.mClasses = new HashMap<>();
 
 //		CalendarDay day = new CalendarDay(Calendar.getInstance());
 //		mDates.add(day);
@@ -68,6 +68,16 @@ public class DojoManager {
 	public Student getStudentById(UUID id) {
 		for(Student cur : mStudents) {
 			if(cur.getId().equals(id)) {
+				return cur;
+			}
+		}
+		return null;
+	}
+
+	public Student getStudentById(String id) {
+		UUID uuid = UUID.fromString(id);
+		for(Student cur : mStudents) {
+			if(cur.getId().equals(uuid)) {
 				return cur;
 			}
 		}
@@ -149,6 +159,21 @@ public class DojoManager {
 			while (itr.hasNext()) {
 				DojoClass cur = itr.next();
 				if(cur.getClassId().equals(id)) {
+					return cur;
+				}
+			}
+		}
+		return null;
+	}
+
+	public DojoClass getClassById(String id) {
+		UUID uuid = UUID.fromString(id);
+		for(String key : mClasses.keySet()) {
+			HashSet<DojoClass> classSet = mClasses.get(key);
+			Iterator<DojoClass> itr = classSet.iterator();
+			while (itr.hasNext()) {
+				DojoClass cur = itr.next();
+				if(cur.getClassId().equals(uuid)) {
 					return cur;
 				}
 			}

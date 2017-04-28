@@ -54,7 +54,7 @@ public class StudentListFragment extends Fragment {
 		FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.student_list_fab);
 		fab.setOnClickListener(v -> {
 			Student student = new Student();
-			DojoManager.getInstance().addStudent(student);
+			mDsm.getDojoManager().addStudent(student);
 			mDsm.writeStudents();
 
 			Intent intent = StudentPagerActivity.newIntent(getActivity(), student.getId());

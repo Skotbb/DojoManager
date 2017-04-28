@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -20,25 +21,25 @@ public class DojoClass  implements Serializable{
 	private UUID classId;
 	private String className;
 	private Date classDate;
-	private ArrayList<Student> attendance;
+	private HashMap<String, Student> attendance;
 	private double classDuration;
-	private int color;
+	private String color;
 
 	public DojoClass() {
 		this.classId = UUID.randomUUID();
 		this.classDate = Calendar.getInstance().getTime();
-		this.color = Color.WHITE;
-		this.attendance = new ArrayList<Student>();
+		this.color = "#ffffff";
+		this.attendance = new HashMap<>();
 	}
 
 	public DojoClass(Date classDate) {
 		this.classId = UUID.randomUUID();
 		this.classDate = classDate;
-		this.color = Color.WHITE;
-		this.attendance = new ArrayList<Student>();
+		this.color = "#ffffff";
+		this.attendance = new HashMap<>();
 	}
 
-	public DojoClass(String className, Date classDate, ArrayList<Student> attendance, double duration) {
+	public DojoClass(String className, Date classDate, HashMap<String, Student> attendance, double duration) {
 		this.classId = UUID.randomUUID();
 		this.className = className;
 		this.classDate = classDate;
@@ -66,11 +67,11 @@ public class DojoClass  implements Serializable{
 		this.classDate = classDate;
 	}
 
-	public ArrayList<Student> getAttendance() {
+	public HashMap<String, Student> getAttendance() {
 		return attendance;
 	}
 
-	public void setAttendance(ArrayList<Student> attendance) {
+	public void setAttendance(HashMap<String, Student> attendance) {
 		this.attendance = attendance;
 	}
 
@@ -82,11 +83,11 @@ public class DojoClass  implements Serializable{
 		this.classDuration = classDuration;
 	}
 
-	public int getColor() {
+	public String getColor() {
 		return color;
 	}
 
-	public void setColor(int color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 }

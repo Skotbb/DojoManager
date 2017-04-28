@@ -26,7 +26,8 @@
 
             <TextView
                 android:id="@+id/student_label_names"
-                style="?android:listSeparatorTextViewStyle"
+
+                style="@style/AppTheme.LineSeparator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -61,7 +62,8 @@
                 android:layout_weight="1"
                 android:hint="@string/student_first_name"
                 android:maxLines="1"
-                android:selectAllOnFocus="true"/>
+                android:selectAllOnFocus="true"
+                android:singleLine="true"/>
 
             <EditText
                 android:id="@+id/student_lastName_et"
@@ -70,7 +72,8 @@
                 android:layout_weight="1"
                 android:hint="@string/student_last_name"
                 android:maxLines="1"
-                android:selectAllOnFocus="true"/>
+                android:selectAllOnFocus="true"
+                android:singleLine="true"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -86,7 +89,7 @@
 
         <TextView
             android:id="@+id/student_label_rank"
-            style="?android:listSeparatorTextViewStyle"
+            style="@style/AppTheme.LineSeparator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -139,7 +142,8 @@
                 android:ems="10"
                 android:hint="@string/student_rank_timeInRank"
                 android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"/>
+                android:selectAllOnFocus="true"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
@@ -163,7 +167,8 @@
 
         <TextView
             android:id="@+id/student_label_age"
-            style="?android:listSeparatorTextViewStyle"
+
+            style="@style/AppTheme.LineSeparator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -210,7 +215,7 @@
 
     <Button
         android:id="@+id/student_viewNotes_button"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"

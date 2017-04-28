@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,9 +42,9 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 	private static final String DIALOG_DATE = "DialogDate";
 	private static final int REQUEST_DATE = 666;
 
-	private DojoManager mManager;
 	private DojoStorageManager dsm;
 	private Student mStudent;
+	private UUID mId;
 
 	private View mMainView;
 	private Spinner mRankLevel,
@@ -89,13 +91,12 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		mViewNotes = (Button) mMainView.findViewById(R.id.student_viewNotes_button);
 		mViewNotes.setOnClickListener(this);
 
-		UUID studentId = (UUID) getArguments().getSerializable(ARG_STUDENT_ID);
+		mId = (UUID) getArguments().getSerializable(ARG_STUDENT_ID);
 			// Data managers
-		mManager = DojoManager.getInstance();
 		dsm = new DojoStorageManager(getContext());
+		mStudent = dsm.getDojoManager().getStudentById(mId);
 
-		mStudent = mManager.getStudentById(studentId);
-		fillInFieldsWithStudent(mMainView, mStudent);
+		fillInFieldsWithStudent(mMainView);
 
 		// Inflate the layout for this fragment
 		return mMainView;
@@ -111,11 +112,11 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_item_student_save: {
-				saveStudent(getContext());
+				saveStudent();
 				return true;
 			}
 			case R.id.menu_item_student_delete : {
-				if(mManager.getStudents().remove(mStudent)) {
+				if(dsm.getDojoManager().getStudents().remove(mStudent)) {
 					Toast.makeText(getContext(), R.string.removed, Toast.LENGTH_SHORT).show();
 					dsm.writeStudents();
 					getActivity().finish();
@@ -129,7 +130,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		}
 	}
 
-	private void fillInFieldsWithStudent(View v, Student student) {
+	private void fillInFieldsWithStudent(View v) {
 		mFirstName = (EditText) v.findViewById(R.id.student_firstName_et);
 		mLastName = (EditText) v.findViewById(R.id.student_lastName_et);
 		mTimeRank = (EditText) v.findViewById(R.id.student_timeInRank_et);
@@ -138,14 +139,31 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 		String temp = "New Student";
 
 
-		mFirstName.setText(student.getFirstName());
-		mLastName.setText(student.getLastName());
-		if(!student.getFullName().equals(null) && student.getFullName().length() > 1) {
-			getActivity().setTitle(student.getFullName());
-		} else {
-			getActivity().setTitle(temp);
-		}
-		mTimeRank.setText(String.valueOf(student.getRank().getTimeInRank()));
+		mFirstName.setText(mStudent.getFirstName());
+		mLastName.setText(mStudent.getLastName());
+		getActivity().setTitle(mStudent.getFirstName() + " " + mStudent.getLastName());
+		mFirstName.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+				getActivity().setTitle(charSequence + " " + mStudent.getLastName());
+			}
+			@Override
+			public void afterTextChanged(Editable editable) {}
+		});
+		mLastName.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+				getActivity().setTitle(mStudent.getFirstName() + " " + charSequence);
+			}
+			@Override
+			public void afterTextChanged(Editable editable) {}
+		});
+
+		mTimeRank.setText(String.valueOf(mStudent.getRank().getTimeInRank()));
 		mRankLevel.setSelection(getArrayAdapter(R.array.rank_levels).getPosition(String.valueOf(mStudent.getRank().getRankLevel())));
 		mRankType.setSelection(getArrayAdapter(R.array.rank_types).getPosition(String.valueOf(mStudent.getRank().getRank())));
 		updateBirthday();
@@ -182,21 +200,22 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 //		rankLevel = Integer.valueOf(temp);
 //		mStudent.getRank().setRankLevel(rankLevel);
 		mStudent.getRank().setRankLevel(Integer.valueOf(mRankLevel.getSelectedItem().toString()));
-		mStudent.getRank().setTimeInRank(Double.valueOf(mTimeRank.getText().toString().trim()));
-		mStudent.getRank().setRank(mRankType.getSelectedItem().toString().equals(Rank.RankType.Dan.toString()) ? Rank.RankType.Dan : Rank.RankType.Kyu);
+		timeInRank = Double.valueOf(mTimeRank.getText().toString());
+		mStudent.setTimeInRank(timeInRank);
+		mStudent.setRankType(mRankType.getSelectedItem().toString().equals(Rank.RankType.Dan.toString()) ? Rank.RankType.Dan : Rank.RankType.Kyu);
 		mStudent.setPaidUp(mPaid.isChecked());
 //		tempStudent = new Student(fName, lName, Calendar.getInstance().getTime(), new Rank(rankLevel, rankType, timeInRank));
-//		return tempStudent;
 	}
 
-	private void saveStudent(Context context) {
+	private void saveStudent() {
 		if(mMainView != null) {
 			getStudentFromFields(mMainView);
+			dsm.getDojoManager().replaceStudent(mStudent);
 		}
 		if (dsm.writeStudents()) {
-			Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
 		} else {
-			Toast.makeText(context, R.string.save_failed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -206,7 +225,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 			case R.id.student_promote_button : {
 				if(mStudent != null) {
 					mStudent.getRank().promote();
-					fillInFieldsWithStudent(v.getRootView(), mStudent);
+					fillInFieldsWithStudent(v.getRootView());
 				}
 			} break;
 			case R.id.student_changeBday_button : {
@@ -216,7 +235,7 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 				dialog.show(fm, DIALOG_DATE);
 			} break;
 			case R.id.student_viewNotes_button : {
-				saveStudent(getContext());
+				saveStudent();
 				Intent intent = NotesListActivity.newInstance(getContext(), mStudent.getId());
 				startActivity(intent);
 			} break;
@@ -245,6 +264,6 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 //		if(!dsm.writeStudents()){
 //			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
 //		}
-		saveStudent(getContext());
+		saveStudent();
 	}
 }

@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="toolBarColor">#eeeeee</color>
+
+    <string-array name="array_colorPicker">
+        <item>#ae5252</item>
+        <item>#fcb271</item>
+        <item>#f9ec7f</item>
+        <item>#94e684</item>
+        <item>#6b7eb9</item>
+        <item>#906fa4</item>
+        <item>#ffffff</item>
+    </string-array>
 </resources>

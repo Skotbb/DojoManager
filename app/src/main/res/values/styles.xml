@@ -21,4 +21,14 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.LineSeparator">
+        <item name="android:height">25dp</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@drawable/border_bottom</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+
 </resources>

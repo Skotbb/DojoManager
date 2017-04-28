@@ -42,11 +42,11 @@ public class Student implements Serializable, Comparable<Student>{
     }
 
     public UUID getId() {
-        return _id;
+        return this._id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -54,7 +54,7 @@ public class Student implements Serializable, Comparable<Student>{
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public String getFullName() {return this.firstName +" "+ this.lastName;}
@@ -64,7 +64,7 @@ public class Student implements Serializable, Comparable<Student>{
     }
 
     public Calendar getBirthDate() {
-        return birthDate;
+        return this.birthDate;
     }
 
     public void setBirthDate(Date birthDate) {
@@ -84,12 +84,33 @@ public class Student implements Serializable, Comparable<Student>{
     }
 
     public Rank getRank() {
-        return rank;
+        return this.rank;
     }
 
     public void setRank(Rank rank) {
         this.rank = rank;
     }
+
+    public void setTimeInRank(Double time) {
+		this.rank.setTimeInRank(time);
+	}
+	public Double getTimeInRank() {
+		return this.rank.getTimeInRank();
+	}
+
+	public void setRankLevel(int rankLevel) {
+		this.rank.setRankLevel(rankLevel);
+	}
+	public int getRankLevel() {
+		return this.rank.getRankLevel();
+	}
+
+	public void setRankType(Rank.RankType rank) {
+		this.rank.setRank(rank);
+	}
+	public Rank.RankType getRankType() {
+		return this.rank.getRank();
+	}
 
     public boolean isPaidUp() {
         return isPaidUp;
