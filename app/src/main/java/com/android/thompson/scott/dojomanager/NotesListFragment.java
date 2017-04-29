@@ -2,6 +2,7 @@ package com.android.thompson.scott.dojomanager;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +35,7 @@ public class NotesListFragment extends Fragment {
 	RecyclerView mRecylerView;
 	NoteAdapter mAdapter;
 	DojoStorageManager mDsm;
+
 	Student mStudent;
 	int mNoteIndex = -1;
 
@@ -47,11 +49,17 @@ public class NotesListFragment extends Fragment {
 		return frag;
 	}
 
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
+
 		mRecylerView = (RecyclerView) view.findViewById(R.id.notes_recycler_view);
 		mRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		mDsm = new DojoStorageManager(getContext());
@@ -102,6 +110,25 @@ public class NotesListFragment extends Fragment {
 		}
 	}
 
+	protected Bundle createPrettyBundle(UUID id, int index) {
+		Bundle bundle = new Bundle();
+		Bundle args_id = new Bundle();
+		Bundle args_index = new Bundle();
+
+		args_id.putSerializable(ARGS_STUDENTID, id);
+		args_index.putInt(ARGS_NOTEINDEX, index);
+		bundle.putBundle(ARGS_NOTEINDEX, args_index);
+		bundle.putBundle(ARGS_STUDENTID, args_id);
+
+		return bundle;
+	}
+
+//	@Override
+//	public void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//
+//		outState.putBundle("SAVEDINSTANCE", createPrettyBundle(mStudent.getId(), mNoteIndex));
+//	}
 
 	private class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private TextView mNoteText;
@@ -130,9 +157,7 @@ public class NotesListFragment extends Fragment {
 			Toast.makeText(getActivity(), mNote, Toast.LENGTH_SHORT).show();
 
 			NoteFragment frag = new NoteFragment();
-			Bundle bundle = new Bundle();
-			Bundle args_id = new Bundle();
-			Bundle args_index = new Bundle();
+
 			for(int i=0; i < mStudent.getStudentNotes().size(); i++) {
 				if(mStudent.getNoteAt(i).contains(mNote)) {
 					mNoteIndex = i;
@@ -140,12 +165,7 @@ public class NotesListFragment extends Fragment {
 				}
 			}
 
-			args_id.putSerializable(ARGS_STUDENTID, mStudent.getId());
-			args_index.putInt(ARGS_NOTEINDEX, mNoteIndex);
-			bundle.putBundle(ARGS_NOTEINDEX, args_index);
-			bundle.putBundle(ARGS_STUDENTID, args_id);
-
-			frag.setArguments(bundle);
+			frag.setArguments(createPrettyBundle(mStudent.getId(), mNoteIndex));
 
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			// Replace current (note list) fragment with note fragment

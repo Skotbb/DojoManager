@@ -89,25 +89,29 @@ public class DojoStorageManager implements DojoStorageInterface {
 
 	@Override
 	public boolean writeStudents() {
-		try {
-			// Open file stream
-			FileOutputStream fos = mContext.openFileOutput(DOJO_STUDENTS_FILENAME, Context.MODE_PRIVATE);
-			// Open object output stream.
-			ObjectOutputStream out = new ObjectOutputStream(fos);
+		if (!dm.getStudents().isEmpty()) {
+			try {
+				// Open file stream
+				FileOutputStream fos = mContext.openFileOutput(DOJO_STUDENTS_FILENAME, Context.MODE_PRIVATE);
+				// Open object output stream.
+				ObjectOutputStream out = new ObjectOutputStream(fos);
 
-			// Write mStudents array to file stream.
-			logMessage("Writing to device.");
-			out.writeObject(dm.getStudents());
-			logMessage("Finished.");
-			// Close streams.
-			out.close();
-			fos.close();
-			logMessage("Closed.");
-			return true;
-		}catch(IOException e) {
-			Log.e(DOJO_DIAG, e.getMessage());
-			return false;
+				// Write mStudents array to file stream.
+				logMessage("Writing to device.");
+				out.writeObject(dm.getStudents());
+				logMessage("Finished.");
+				// Close streams.
+				out.close();
+				fos.close();
+				logMessage("Closed.");
+				return true;
+			}catch(IOException e) {
+				Log.e(DOJO_DIAG, e.getMessage());
+				return false;
+			}
 		}
+		Log.e(DOJO_DIAG, "Not saving an empty Student list");
+		return false;
 	}
 
 	@Override
@@ -134,25 +138,29 @@ public class DojoStorageManager implements DojoStorageInterface {
 
 	@Override
 	public boolean writeClasses() {
-		try {
-			// Open file stream
-			FileOutputStream fos = mContext.openFileOutput(DOJO_ClASSES_FILENAME, Context.MODE_PRIVATE);
-			// Open object output stream.
-			ObjectOutputStream out = new ObjectOutputStream(fos);
+		if (!dm.getClasses().isEmpty()) {
+			try {
+				// Open file stream
+				FileOutputStream fos = mContext.openFileOutput(DOJO_ClASSES_FILENAME, Context.MODE_PRIVATE);
+				// Open object output stream.
+				ObjectOutputStream out = new ObjectOutputStream(fos);
 
-			// Write mStudents array to file stream.
-			logMessage("Writing to device.");
-			out.writeObject(dm.getClasses());
-			logMessage("Finished.");
-			// Close streams.
-			out.close();
-			fos.close();
-			logMessage("Closed.");
-			return true;
-		}catch(IOException e) {
-			Log.e(DOJO_DIAG, e.getMessage());
-			return false;
+				// Write mStudents array to file stream.
+				logMessage("Writing to device.");
+				out.writeObject(dm.getClasses());
+				logMessage("Finished.");
+				// Close streams.
+				out.close();
+				fos.close();
+				logMessage("Closed.");
+				return true;
+			}catch(IOException e) {
+				Log.e(DOJO_DIAG, e.getMessage());
+				return false;
+			}
 		}
+		Log.e(DOJO_DIAG, "Not saving an empty Class list");
+		return false;
 	}
 
 	@Override
@@ -179,25 +187,29 @@ public class DojoStorageManager implements DojoStorageInterface {
 
 	@Override
 	public boolean writeClassDates() {
-		try {
-			// Open file stream
-			FileOutputStream fos = mContext.openFileOutput(DOJO_ClASSDATES_FILENAME, Context.MODE_PRIVATE);
-			// Open object output stream.
-			ObjectOutputStream out = new ObjectOutputStream(fos);
+		if (!dm.getDates().isEmpty()) {
+			try {
+				// Open file stream
+				FileOutputStream fos = mContext.openFileOutput(DOJO_ClASSDATES_FILENAME, Context.MODE_PRIVATE);
+				// Open object output stream.
+				ObjectOutputStream out = new ObjectOutputStream(fos);
 
-			// Write mStudents array to file stream.
-			logMessage("Writing to device.");
-			out.writeObject(dm.getDates());
-			logMessage("Finished.");
-			// Close streams.
-			out.close();
-			fos.close();
-			logMessage("Closed.");
-			return true;
-		}catch(IOException e) {
-			Log.e(DOJO_DIAG, e.getMessage());
-			return false;
+				// Write mStudents array to file stream.
+				logMessage("Writing to device.");
+				out.writeObject(dm.getDates());
+				logMessage("Finished.");
+				// Close streams.
+				out.close();
+				fos.close();
+				logMessage("Closed.");
+				return true;
+			}catch(IOException e) {
+				Log.e(DOJO_DIAG, e.getMessage());
+				return false;
+			}
 		}
+		Log.e(DOJO_DIAG, "Not saving an empty Dates list");
+		return false;
 	}
 
 	public boolean readAllData() {

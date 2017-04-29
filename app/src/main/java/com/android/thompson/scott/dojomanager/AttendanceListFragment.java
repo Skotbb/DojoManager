@@ -16,11 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -43,7 +45,7 @@ public class AttendanceListFragment extends Fragment {
 
 	private DojoStorageManager mDsm;
 	private DojoClass mClass;
-	private HashMap<String, Student> mAttendance;
+	private HashMap<String, Student> mAttendance, newAttendance;
 
 	public AttendanceListFragment() {
 		// Required empty public constructor
@@ -64,6 +66,7 @@ public class AttendanceListFragment extends Fragment {
 		mDsm = new DojoStorageManager(getContext());
 		mClass = mDsm.getDojoManager().getClassById(id);
 		mAttendance = mClass.getAttendance();
+		newAttendance = new HashMap<>();
 
 		mRecycler = (RecyclerView) mView.findViewById(R.id.attendance_list_recyclerView);
 		mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -109,35 +112,33 @@ public class AttendanceListFragment extends Fragment {
 	}
 
 	private boolean figureAttendance() {
-		for(int i=0 ; i < mRecycler.getAdapter().getItemCount(); i++) {
-			View view = mRecycler.findViewHolderForLayoutPosition(i).itemView;
-			TextView idView = (TextView) view.findViewById(R.id.list_item_attendance_id);
-			CheckBox isPresent = (CheckBox) view.findViewById(R.id.list_item_attendance_present_cb);
-			String uuid = (String) idView.getText();
+		// Running attendance.
+		HashMap<String, Student> oldAttendance = new HashMap<>();
+		oldAttendance = (HashMap<String, Student>) mAttendance.clone();
+		for (String key : oldAttendance.keySet()) {
+			Student curStud = mDsm.getDojoManager().getStudentById(oldAttendance.get(key).getId());
+			Double duration = mClass.getClassDuration(),
+					timeInRank = curStud.getTimeInRank();
 
-			Student student = mDsm.getDojoManager().getStudentById(uuid);
-			Double currentTimeInRank = student.getRank().getTimeInRank();
-			Double classDuration = mClass.getClassDuration();
-			// Check if student is marked present or not
-			if(isPresent.isChecked()) { // If student is present
-				// If student is not part of attendance, add them.
-				if(!mAttendance.containsKey(student.getId().toString())) {
-					mAttendance.put(student.getId().toString(), student);
-					// Add new time in rank to student.
-					currentTimeInRank = classDuration > 0 ? currentTimeInRank + classDuration : currentTimeInRank;
-					student.getRank().setTimeInRank(currentTimeInRank);
-				}
-			} else {	// If student is not checked.
-				// Check if they are in attendance list
-				if(mAttendance.containsKey(student.getId().toString())) {	// They were part of attendance, but are being unchecked.
-					// Remove time from student.
-					currentTimeInRank = classDuration > 0 ? currentTimeInRank - classDuration : currentTimeInRank;
-					student.getRank().setTimeInRank(currentTimeInRank);
-					// Remove student from attendance.
-					mAttendance.remove(student.getId().toString());
-				}
+			// If student is in old attendance, but not in new, remove them and decrement time.
+			if(!newAttendance.containsKey(key)) {
+				curStud.setTimeInRank(timeInRank - duration);
+				mAttendance.remove(key);
 			}
 		}
+		// New attendance.
+		for(String key : newAttendance.keySet()) {
+			Student curStud = newAttendance.get(key);
+			Double duration = mClass.getClassDuration(),
+					timeInRank = curStud.getTimeInRank();
+
+			// If student is in new attendance and not in old, add them and increment time
+			if(!mAttendance.containsKey(key)) {
+				curStud.setTimeInRank(timeInRank + duration);
+				mAttendance.put(key, curStud);
+			}
+		}
+		mDsm.getDojoManager().getClassById(mClass.getClassId()).setAttendance(mAttendance);
 		if(mDsm.writeClasses() && mDsm.writeStudents()) {
 			Toast.makeText(getContext(), R.string.attendance_updated, Toast.LENGTH_SHORT).show();
 			return true;
@@ -159,16 +160,35 @@ public class AttendanceListFragment extends Fragment {
 
 			mName = (TextView) view.findViewById(R.id.list_item_attendance_name);
 			mIsPresent = (CheckBox) view.findViewById(R.id.list_item_attendance_present_cb);
+
 			mId = (TextView) view.findViewById(R.id.list_item_attendance_id);
 		}
 
 		public void bindAttendance(HashMap<String, Student> attendance, Student student) {
 
 			mName.setText(student.getFullName());
-			mIsPresent.setChecked(mAttendance.containsKey(student.getId().toString()));
+			mIsPresent.setChecked(attendance.containsKey(student.getId().toString()));
+			mIsPresent.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					CheckBox cb = (CheckBox) view;
+					// If the student is present
+					if (attendance.containsKey(student.getId().toString())) {
+						// If the checkbox is still checked
+						if(cb.isChecked()) {
+							newAttendance.put(student.getId().toString(), student);
+						}
+					} else {	// If the student is not present
+						// If the checkbox is checked
+						if(cb.isChecked()) {
+							// Add to attendance.
+							newAttendance.put(student.getId().toString(), student);
+						}
+					}
+				}
+			});
 			mId.setText(student.getId().toString());
 		}
-
 //		@Override
 //		public void onClick(View v) {
 //			ClassFragment frag = new ClassFragment();

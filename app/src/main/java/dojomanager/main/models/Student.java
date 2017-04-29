@@ -155,19 +155,19 @@ public class Student implements Serializable, Comparable<Student>{
 			// If rank type is the same.
 		if(last == 0) {
 			//  If their ranks are both Dan
-			if(this.getRank().getRank().toString().equals(Rank.RankType.Dan)) {
+			if(this.getRank().getRank().equals(Rank.RankType.Dan)) {
 				// If their rank levels are the same
 				if(this.getRank().getRankLevel() == that.getRank().getRankLevel()) {
 					return this.getRank().getTimeInRank() < that.getRank().getTimeInRank() ? 1 : -1;
 				} else {	// If their rank levels differ. Dan higher number is better.
-					return this.getRank().getRankLevel() > that.getRank().getRankLevel() ? 1 : -1;
+					return this.getRank().getRankLevel() < that.getRank().getRankLevel() ? 1 : -1;
 				}
 			} else {	// If their ranks are both Kyu
 				// If their rank levels are the same
 				if(this.getRank().getRankLevel() == that.getRank().getRankLevel()) {
 					return this.getRank().getTimeInRank() < that.getRank().getTimeInRank() ? 1 : -1;
 				} else {	// If their rank levels differ. Kyu lower number is better.
-					return this.getRank().getRankLevel() < that.getRank().getRankLevel() ? 1 : -1;
+					return this.getRank().getRankLevel() > that.getRank().getRankLevel() ? 1 : -1;
 				}
 			}
 		} else {	// If rank types are different, return the compare.
