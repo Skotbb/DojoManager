@@ -31,6 +31,7 @@ import dojomanager.main.models.Student;
 import dojomanager.storage.models.DojoManager;
 import dojomanager.storage.models.DojoStorageManager;
 
+import static android.os.Build.VERSION_CODES.M;
 import static com.android.thompson.scott.dojomanager.DateClassListFragment.ARGS_CLASSID;
 
 
@@ -122,7 +123,11 @@ public class AttendanceListFragment extends Fragment {
 
 			// If student is in old attendance, but not in new, remove them and decrement time.
 			if(!newAttendance.containsKey(key)) {
-				curStud.setTimeInRank(timeInRank - duration);
+				if(duration > timeInRank) {
+					curStud.setTimeInRank(0.0);
+				} else {
+					curStud.setTimeInRank(timeInRank - duration);
+				}
 				mAttendance.remove(key);
 			}
 		}
@@ -134,7 +139,9 @@ public class AttendanceListFragment extends Fragment {
 
 			// If student is in new attendance and not in old, add them and increment time
 			if(!mAttendance.containsKey(key)) {
-				curStud.setTimeInRank(timeInRank + duration);
+				if(timeInRank + duration < 6000) {
+					curStud.setTimeInRank(timeInRank + duration);
+				}
 				mAttendance.put(key, curStud);
 			}
 		}

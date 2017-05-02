@@ -104,7 +104,7 @@ public class Rank implements Serializable{
             rankLevel = 1;
         }
             //If Dan rank, and less than max number, increment number
-        if(rank.equals(RankType.Dan) && rankLevel < rankLevMax){
+        else if(rank.equals(RankType.Dan) && rankLevel < rankLevMax){
             rankLevel++;
         }
             // Reset time in rank.

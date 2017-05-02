@@ -79,4 +79,8 @@
     <string name="attendance_updated">Attendance Updated.</string>
     <string name="attendance_failed">Attendance FAILED.</string>
 
+    <!--    Toast Text -->
+    <string name="toast_inputTooLow">Input is too low! Must be over: </string>
+    <string name="toast_inputTooHigh">Input is too high! Must be under: </string>
+
 </resources>

@@ -200,11 +200,12 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 //		rankLevel = Integer.valueOf(temp);
 //		mStudent.getRank().setRankLevel(rankLevel);
 		mStudent.getRank().setRankLevel(Integer.valueOf(mRankLevel.getSelectedItem().toString()));
-		timeInRank = Double.valueOf(mTimeRank.getText().toString());
-		mStudent.setTimeInRank(timeInRank);
+		timeInRank = checkDoubleForRange(-1.0, 6000.0, Double.valueOf(mTimeRank.getText().toString()));
+		if(timeInRank != -1){
+			mStudent.setTimeInRank(timeInRank);
+		}
 		mStudent.setRankType(mRankType.getSelectedItem().toString().equals(Rank.RankType.Dan.toString()) ? Rank.RankType.Dan : Rank.RankType.Kyu);
 		mStudent.setPaidUp(mPaid.isChecked());
-//		tempStudent = new Student(fName, lName, Calendar.getInstance().getTime(), new Rank(rankLevel, rankType, timeInRank));
 	}
 
 	private void saveStudent() {
@@ -216,6 +217,19 @@ public class StudentFragment extends Fragment implements Button.OnClickListener{
 			Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
 		} else {
 			Toast.makeText(getContext(), R.string.save_failed, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private Double checkDoubleForRange(Double min, Double max, double input) {
+		if(input > min && input < max) {
+			return input;
+		} else {
+			if(input < min) {
+				Toast.makeText(getContext(), getString(R.string.toast_inputTooLow) + String.valueOf(min), Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getContext(), getString(R.string.toast_inputTooHigh) + String.valueOf(max), Toast.LENGTH_SHORT).show();
+			}
+			return -1.0;
 		}
 	}
 
