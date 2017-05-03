@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		if (id == R.id.settings) {
-			Toast.makeText(this, "Fuck off.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "I haven't added settings.", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return true;
